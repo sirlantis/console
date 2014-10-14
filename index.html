@@ -1,0 +1,196 @@
+<!DOCTYPE html><html lang=en><meta charset=utf-8>
+  <title>Console Standard</title>
+  <link href=https://www.whatwg.org/style/specification rel=stylesheet>
+  <link href=https://cdn.rawgit.com/terinjokes/console-spec/dd485319b0d0c918d954e0daafd349c9387c6e8c/logo.svg rel=icon>
+<script async src=//resources.whatwg.org/file-bug.js></script>
+  <body class=h-entry>
+<div class=head>
+  <p data-fill-with=logo><a class=logo href=http://www.whatwg.org/>
+    <img alt=WHATWG height=100 src=https://cdn.rawgit.com/terinjokes/console-spec/dd485319b0d0c918d954e0daafd349c9387c6e8c/logo.svg>
+</a>
+</p>
+  <h1 class="p-name no-ref" id=title>Console</h1>
+  <h2 class="no-num no-toc no-ref heading settled" id=subtitle><span class=content>A Collection of Interesting Ideas,
+    <span class=dt-updated><span class=value-title title=20141014>14 October 2014</span></span></span></h2>
+  <div data-fill-with=spec-metadata><dl><dt>This version:<dd><a class=u-url href=https://terinjokes.github.io/console-spec>https://terinjokes.github.io/console-spec</a><dt>Editor:<dd><div class="p-author h-card vcard"><a class="p-name fn u-url url" href=https://terinstock.com>Terin Stock</a> <a class="u-email email" href=mailto:terin@terinstock.com>terin@terinstock.com</a></div><dt>Version History:<dd><span><a href=https://github.com/terinjokes/console-spec/commits>https://github.com/terinjokes/console-spec/commits</a></span><dt>Participate:<dd><span><a href=https://github.com/terinjokes/console-spec/issues/new>File an issue</a> (<a href="https://github.com/terinjokes/console-spec/issues?state=open">open issues</a>)</span><dd><span>Send feedback to <a href=http://www.whatwg.org/mailing-list>whatwg@whatwg.org</a> (<a href=http://www.whatwg.org/mailing-list#specs>archives</a>)</span><dd><span><a href=http://wiki.whatwg.org/wiki/IRC>IRC: #whawg on Freenode</a></span></dl></div>
+  <div data-fill-with=warning></div>
+  <p class=copyright data-fill-with=copyright><a href=http://creativecommons.org/publicdomain/zero/1.0/ rel=license><img alt=CC0 src=https://i.creativecommons.org/p/zero/1.0/80x15.png></a>
+To the extent possible under law, the editors have waived all copyright
+and related or neighboring rights to this work.
+In addition, as of 14 October 2014,
+the editors have made this specification available under the
+<a href=http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0 rel=license>Open Web Foundation Agreement Version 1.0</a>,
+which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
+Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document.
+</p>
+  <hr title="Separator for header">
+</div>
+
+<h2 class="no-num no-toc no-ref heading settled" id=abstract><span class=content>Abstract</span></h2>
+<div class=p-summary data-fill-with=abstract><p>This specification standardizes APIs for console debugging facilities.</p>
+
+</div>
+<div data-fill-with=at-risk></div>
+
+<h2 class="no-num no-toc no-ref heading settled" id=contents><span class=content>Table of Contents</span></h2>
+<div data-fill-with=table-of-contents><ul class=toc><li><a href=#logger-function><span class=secno>1</span> <span class=content>Logger Function</span></a><li><a href=#console-interface><span class=secno>2</span> <span class=content>Interface <code>Console</code></span></a><ul class=toc><li><a href=#logging><span class=secno>2.1</span> <span class=content>Logging Methods</span></a><ul class=toc><li><a href=#assert><span class=secno>2.1.1</span> <span class=content><span data-dfn-for=Console data-dfn-type=method data-export="" title=assert()>assert()</span></span></a><li><a href=#clear><span class=secno>2.1.2</span> <span class=content><span data-dfn-for=Console data-dfn-type=method data-export="" title=clear()>clear()</span></span></a><li><a href=#count><span class=secno>2.1.3</span> <span class=content><span data-dfn-for=Console data-dfn-type=method data-export="" title=count()>count()</span></span></a><li><a href=#debug><span class=secno>2.1.4</span> <span class=content><span data-dfn-for=Console data-dfn-type=method data-export="" title=debug()>debug()</span></span></a><li><a href=#error><span class=secno>2.1.5</span> <span class=content><span data-dfn-for=Console data-dfn-type=method data-export="" title=error()>error()</span></span></a><li><a href=#info><span class=secno>2.1.6</span> <span class=content><span data-dfn-for=Console data-dfn-type=method data-export="" title=info()>info()</span></span></a><li><a href=#log><span class=secno>2.1.7</span> <span class=content><span data-dfn-for=Console data-dfn-type=method data-export="" title=log()>log()</span></span></a><li><a href=#table><span class=secno>2.1.8</span> <span class=content><span data-dfn-for=Console data-dfn-type=method data-export="" title=table()>table()</span></span></a><li><a href=#trace><span class=secno>2.1.9</span> <span class=content><span data-dfn-for=Console data-dfn-type=method data-export="" title=trace()>trace()</span></span></a><li><a href=#warn><span class=secno>2.1.10</span> <span class=content><span data-dfn-for=Console data-dfn-type=method data-export="" title=warn()>warn()</span></span></a></ul><li><a href=#grouping><span class=secno>2.2</span> <span class=content>Grouping Methods</span></a><ul class=toc><li><a href=#group><span class=secno>2.2.1</span> <span class=content><span data-dfn-for=Console data-dfn-type=method data-export="" title=group()>group()</span></span></a><li><a href=#groupcollapse><span class=secno>2.2.2</span> <span class=content><span data-dfn-for=Console data-dfn-type=method data-export="" title=groupCollapse()>groupCollapse()</span></span></a><li><a href=#groupend><span class=secno>2.2.3</span> <span class=content><span data-dfn-for=Console data-dfn-type=method data-export="" title=groupEnd()>groupEnd()</span></span></a></ul><li><a href=#timing><span class=secno>2.3</span> <span class=content>Timing Methods</span></a><ul class=toc><li><a href=#time><span class=secno>2.3.1</span> <span class=content><span data-dfn-for=Console data-dfn-type=method data-export="" title=time()>time()</span></span></a><li><a href=#timeend><span class=secno>2.3.2</span> <span class=content><span data-dfn-for=Console data-dfn-type=method data-export="" title=timeEnd()>timeEnd()</span></span></a></ul></ul><li><a href=#formatting><span class=secno>3</span> <span class=content>Formatting Specifiers</span></a><li><a href=#inspection><span class=secno>4</span> <span class=content>JavaScript Object inspection</span></a><li><a href=#acks><span class=secno></span> <span class=content>Acknowledgments</span></a><li><a href=#conformance><span class=secno></span> <span class=content>Conformance</span></a><li><a href=#references><span class=secno></span> <span class=content>References</span></a><ul class=toc><li><a href=#normative><span class=secno></span> <span class=content>Normative References</span></a></ul><li><a href=#index><span class=secno></span> <span class=content>Index</span></a><li><a href=#idl-index><span class=secno></span> <span class=content>IDL Index</span></a></ul></div>
+
+
+<h2 class="no-num no-toc heading settled" id=status><span class=content>Status</span></h2>
+This specification is in the process of establishing itself in the WHATWG.
+As such, the term "Living Standard" indicates a goal, rather than reality.
+
+<p>Please join us in the <a href="https://github.com/terinjokes/console-spec/issues?state=open">issue tracker</a> for more discussion.</p>
+
+<h2 class="heading settled" data-level=1 id=logger-function><span class=secno>1. </span><span class=content>Logger Function</span><a class=self-link href=#logger-function></a></h2>
+
+<p>@TODO: Write this.</p>
+
+<h2 class="heading settled" data-level=2 id=console-interface><span class=secno>2. </span><span class=content>Interface <code>Console</code></span><a class=self-link href=#console-interface></a></h2>
+
+<pre class=idl>[NoInterfaceObject]
+interface <dfn class=idl-code data-dfn-type=interface data-export="" data-global-name="" id=dom-console>Console<a class=self-link href=#dom-console></a></dfn> {
+  // Logging
+  void <a class=idl-code data-global-name="Console<interface>/assert()<method>" data-link-for=Console data-link-type=method href=#dom-console-assert title=assert()>assert</a>(boolean <dfn class=idl-code data-dfn-for=Console/assert() data-dfn-type=argument data-export="" data-global-name="Console<interface>/assert()<method>/expression<argument>" id=dom-console-assert-expression>expression<a class=self-link href=#dom-console-assert-expression></a></dfn>, DOMString? <dfn class=idl-code data-dfn-for=Console/assert() data-dfn-type=argument data-export="" data-global-name="Console<interface>/assert()<method>/message<argument>" id=dom-console-assert-message>message<a class=self-link href=#dom-console-assert-message></a></dfn>);
+  void <a class=idl-code data-global-name="Console<interface>/clear()<method>" data-link-for=Console data-link-type=method href=#dom-console-clear title=clear()>clear</a>();
+  void <a class=idl-code data-global-name="Console<interface>/count()<method>" data-link-for=Console data-link-type=method href=#dom-console-count title=count()>count</a>(DOMString <dfn class=idl-code data-dfn-for=Console/count() data-dfn-type=argument data-export="" data-global-name="Console<interface>/count()<method>/label<argument>" id=dom-console-count-label>label<a class=self-link href=#dom-console-count-label></a></dfn>);
+  void <a class=idl-code data-global-name="Console<interface>/debug()<method>" data-link-for=Console data-link-type=method href=#dom-console-debug title=debug()>debug</a>(any... <dfn class=idl-code data-dfn-for=Console/debug() data-dfn-type=argument data-export="" data-global-name="Console<interface>/debug()<method>/obj<argument>" id=dom-console-debug-obj>obj<a class=self-link href=#dom-console-debug-obj></a></dfn>);
+  void <a class=idl-code data-global-name="Console<interface>/error()<method>" data-link-for=Console data-link-type=method href=#dom-console-error title=error()>error</a>(any... <dfn class=idl-code data-dfn-for=Console/error() data-dfn-type=argument data-export="" data-global-name="Console<interface>/error()<method>/obj<argument>" id=dom-console-error-obj>obj<a class=self-link href=#dom-console-error-obj></a></dfn>);
+  void <a class=idl-code data-global-name="Console<interface>/info()<method>" data-link-for=Console data-link-type=method href=#dom-console-info title=info()>info</a>(any... <dfn class=idl-code data-dfn-for=Console/info() data-dfn-type=argument data-export="" data-global-name="Console<interface>/info()<method>/obj<argument>" id=dom-console-info-obj>obj<a class=self-link href=#dom-console-info-obj></a></dfn>);
+  void <a class=idl-code data-global-name="Console<interface>/log()<method>" data-link-for=Console data-link-type=method href=#dom-console-log title=log()>log</a>(any... <dfn class=idl-code data-dfn-for=Console/log() data-dfn-type=argument data-export="" data-global-name="Console<interface>/log()<method>/obj<argument>" id=dom-console-log-obj>obj<a class=self-link href=#dom-console-log-obj></a></dfn>);
+  void <a class=idl-code data-global-name="Console<interface>/table()<method>" data-link-for=Console data-link-type=method href=#dom-console-table title=table()>table</a>(object[] <dfn class=idl-code data-dfn-for=Console/table() data-dfn-type=argument data-export="" data-global-name="Console<interface>/table()<method>/arrayofarrays<argument>" id=dom-console-table-arrayofarrays>arrayOfArrays<a class=self-link href=#dom-console-table-arrayofarrays></a></dfn>, DOMString[]? <dfn class=idl-code data-dfn-for=Console/table() data-dfn-type=argument data-export="" data-global-name="Console<interface>/table()<method>/properties<argument>" id=dom-console-table-properties>properties<a class=self-link href=#dom-console-table-properties></a></dfn>);
+  void <a class=idl-code data-global-name="Console<interface>/trace()<method>" data-link-for=Console data-link-type=method href=#dom-console-trace title=trace()>trace</a>(any... <dfn class=idl-code data-dfn-for=Console/trace() data-dfn-type=argument data-export="" data-global-name="Console<interface>/trace()<method>/obj<argument>" id=dom-console-trace-obj>obj<a class=self-link href=#dom-console-trace-obj></a></dfn>);
+  void <a class=idl-code data-global-name="Console<interface>/warn()<method>" data-link-for=Console data-link-type=method href=#dom-console-warn title=warn()>warn</a>(any... <dfn class=idl-code data-dfn-for=Console/warn() data-dfn-type=argument data-export="" data-global-name="Console<interface>/warn()<method>/obj<argument>" id=dom-console-warn-obj>obj<a class=self-link href=#dom-console-warn-obj></a></dfn>);
+
+  // Grouping
+  void <a class=idl-code data-global-name="Console<interface>/group()<method>" data-link-for=Console data-link-type=method href=#dom-console-group title=group()>group</a>(any... <dfn class=idl-code data-dfn-for=Console/group() data-dfn-type=argument data-export="" data-global-name="Console<interface>/group()<method>/obj<argument>" id=dom-console-group-obj>obj<a class=self-link href=#dom-console-group-obj></a></dfn>);
+  void <a class=idl-code data-global-name="Console<interface>/groupcollapse()<method>" data-link-for=Console data-link-type=method href=#dom-console-groupcollapse title=groupCollapse()>groupCollapse</a>(any... <dfn class=idl-code data-dfn-for=Console/groupCollapse() data-dfn-type=argument data-export="" data-global-name="Console<interface>/groupCollapse()<method>/obj<argument>" id=dom-console-groupcollapse-obj>obj<a class=self-link href=#dom-console-groupcollapse-obj></a></dfn>);
+  void <a class=idl-code data-global-name="Console<interface>/groupend()<method>" data-link-for=Console data-link-type=method href=#dom-console-groupend title=groupEnd()>groupEnd</a>();
+
+  // Timing
+  void <a class=idl-code data-global-name="Console<interface>/time()<method>" data-link-for=Console data-link-type=method href=#dom-console-time title=time()>time</a>(DOMString <dfn class=idl-code data-dfn-for=Console/time() data-dfn-type=argument data-export="" data-global-name="Console<interface>/time()<method>/label<argument>" id=dom-console-time-label>label<a class=self-link href=#dom-console-time-label></a></dfn>);
+  void <a class=idl-code data-global-name="Console<interface>/timeend()<method>" data-link-for=Console data-link-type=method href=#dom-console-timeend title=timeEnd()>timeEnd</a>(DOMString <dfn class=idl-code data-dfn-for=Console/timeEnd() data-dfn-type=argument data-export="" data-global-name="Console<interface>/timeEnd()<method>/label<argument>" id=dom-console-timeend-label>label<a class=self-link href=#dom-console-timeend-label></a></dfn>);
+};
+
+partial interface <a class=idl-code data-global-name="" data-link-type=interface href=https://html.spec.whatwg.org/#window title=Window>Window</a> {
+  attribute <a data-link-type=idl href=#dom-console title=Console>Console</a> <dfn class=idl-code data-dfn-for=Window data-dfn-type=attribute data-export="" data-global-name="Window<interface>/console<attribute>" data-type="Console " id=dom-window-console>console<a class=self-link href=#dom-window-console></a></dfn>;
+};
+
+partial interface <a class=idl-code data-global-name="" data-link-type=interface href=https://html.spec.whatwg.org/#workerglobalscope title=WorkerGlobalScope>WorkerGlobalScope</a> {
+  attribute <a data-link-type=idl href=#dom-console title=Console>Console</a> <dfn class=idl-code data-dfn-for=WorkerGlobalScope data-dfn-type=attribute data-export="" data-global-name="WorkerGlobalScope<interface>/console<attribute>" data-type="Console " id=dom-workerglobalscope-console>console<a class=self-link href=#dom-workerglobalscope-console></a></dfn>;
+};
+</pre>
+
+<h3 class="heading settled" data-level=2.1 id=logging><span class=secno>2.1. </span><span class=content>Logging Methods</span><a class=self-link href=#logging></a></h3>
+
+<h4 class="heading settled" data-level=2.1.1 id=assert><span class=secno>2.1.1. </span><span class=content><dfn class=idl-code data-dfn-for=Console data-dfn-type=method data-export="" id=dom-console-assert>assert()<a class=self-link href=#dom-console-assert></a></dfn></span><a class=self-link href=#assert></a></h4>
+If expression is false, print the message as an error level message.
+
+<h4 class="heading settled" data-level=2.1.2 id=clear><span class=secno>2.1.2. </span><span class=content><dfn class=idl-code data-dfn-for=Console data-dfn-type=method data-export="" id=dom-console-clear>clear()<a class=self-link href=#dom-console-clear></a></dfn></span><a class=self-link href=#clear></a></h4>
+If possible for the environment, clear the console. Otherwise, do nothing.
+
+<h4 class="heading settled" data-level=2.1.3 id=count><span class=secno>2.1.3. </span><span class=content><dfn class=idl-code data-dfn-for=Console data-dfn-type=method data-export="" id=dom-console-count>count()<a class=self-link href=#dom-console-count></a></dfn></span><a class=self-link href=#count></a></h4>
+Counts the number of times count has been called with the provided label.
+
+<h4 class="heading settled" data-level=2.1.4 id=debug><span class=secno>2.1.4. </span><span class=content><dfn class=idl-code data-dfn-for=Console data-dfn-type=method data-export="" id=dom-console-debug>debug()<a class=self-link href=#dom-console-debug></a></dfn></span><a class=self-link href=#debug></a></h4>
+
+<p>The side effect of running the logger function with objs and logLevel set to log.</p>
+
+<h4 class="heading settled" data-level=2.1.5 id=error><span class=secno>2.1.5. </span><span class=content><dfn class=idl-code data-dfn-for=Console data-dfn-type=method data-export="" id=dom-console-error>error()<a class=self-link href=#dom-console-error></a></dfn></span><a class=self-link href=#error></a></h4>
+
+<p>The side effect of running the logger function with objs and logLevel set to error.</p>
+
+<h4 class="heading settled" data-level=2.1.6 id=info><span class=secno>2.1.6. </span><span class=content><dfn class=idl-code data-dfn-for=Console data-dfn-type=method data-export="" id=dom-console-info>info()<a class=self-link href=#dom-console-info></a></dfn></span><a class=self-link href=#info></a></h4>
+
+<p>The side effect of running the logger function with objs and logLevel set to info.</p>
+
+<h4 class="heading settled" data-level=2.1.7 id=log><span class=secno>2.1.7. </span><span class=content><dfn class=idl-code data-dfn-for=Console data-dfn-type=method data-export="" id=dom-console-log>log()<a class=self-link href=#dom-console-log></a></dfn></span><a class=self-link href=#log></a></h4>
+
+<p>The side effect of running the logger function with objs and logLevel set to log.</p>
+
+<h4 class="heading settled" data-level=2.1.8 id=table><span class=secno>2.1.8. </span><span class=content><dfn class=idl-code data-dfn-for=Console data-dfn-type=method data-export="" id=dom-console-table>table()<a class=self-link href=#dom-console-table></a></dfn></span><a class=self-link href=#table></a></h4>
+
+<p>Construct a table with the columns of the properties of objs and rows of objs and log with a logLevel of log.</p>
+
+<h4 class="heading settled" data-level=2.1.9 id=trace><span class=secno>2.1.9. </span><span class=content><dfn class=idl-code data-dfn-for=Console data-dfn-type=method data-export="" id=dom-console-trace>trace()<a class=self-link href=#dom-console-trace></a></dfn></span><a class=self-link href=#trace></a></h4>
+
+<p>The side effect of running the logger function with objs and logLevel set to error.</p>
+
+<h4 class="heading settled" data-level=2.1.10 id=warn><span class=secno>2.1.10. </span><span class=content><dfn class=idl-code data-dfn-for=Console data-dfn-type=method data-export="" id=dom-console-warn>warn()<a class=self-link href=#dom-console-warn></a></dfn></span><a class=self-link href=#warn></a></h4>
+
+<p>The side effect of running the logger function with objs and logLevel set to warn.</p>
+
+<h3 class="heading settled" data-level=2.2 id=grouping><span class=secno>2.2. </span><span class=content>Grouping Methods</span><a class=self-link href=#grouping></a></h3>
+
+<h4 class="heading settled" data-level=2.2.1 id=group><span class=secno>2.2.1. </span><span class=content><dfn class=idl-code data-dfn-for=Console data-dfn-type=method data-export="" id=dom-console-group>group()<a class=self-link href=#dom-console-group></a></dfn></span><a class=self-link href=#group></a></h4>
+
+<h4 class="heading settled" data-level=2.2.2 id=groupcollapse><span class=secno>2.2.2. </span><span class=content><dfn class=idl-code data-dfn-for=Console data-dfn-type=method data-export="" id=dom-console-groupcollapse>groupCollapse()<a class=self-link href=#dom-console-groupcollapse></a></dfn></span><a class=self-link href=#groupcollapse></a></h4>
+
+<h4 class="heading settled" data-level=2.2.3 id=groupend><span class=secno>2.2.3. </span><span class=content><dfn class=idl-code data-dfn-for=Console data-dfn-type=method data-export="" id=dom-console-groupend>groupEnd()<a class=self-link href=#dom-console-groupend></a></dfn></span><a class=self-link href=#groupend></a></h4>
+
+<h3 class="heading settled" data-level=2.3 id=timing><span class=secno>2.3. </span><span class=content>Timing Methods</span><a class=self-link href=#timing></a></h3>
+
+<h4 class="heading settled" data-level=2.3.1 id=time><span class=secno>2.3.1. </span><span class=content><dfn class=idl-code data-dfn-for=Console data-dfn-type=method data-export="" id=dom-console-time>time()<a class=self-link href=#dom-console-time></a></dfn></span><a class=self-link href=#time></a></h4>
+
+<p>Start an internal timer stored in the timer table as label.</p>
+
+<h4 class="heading settled" data-level=2.3.2 id=timeend><span class=secno>2.3.2. </span><span class=content><dfn class=idl-code data-dfn-for=Console data-dfn-type=method data-export="" id=dom-console-timeend>timeEnd()<a class=self-link href=#dom-console-timeend></a></dfn></span><a class=self-link href=#timeend></a></h4>
+
+<p>Store the current value of the internal timer stored as label as duration.
+Remove the timer from tha timer table.
+Then, the side effect of running the logger function with arguments label and duration.</p>
+
+<h2 class="heading settled" data-level=3 id=formatting><span class=secno>3. </span><span class=content>Formatting Specifiers</span><a class=self-link href=#formatting></a></h2>
+
+<p class=note>Note: Consider keeping these format specifiers general enough to be re-used by other specifications.</p>
+
+<h2 class="heading settled" data-level=4 id=inspection><span class=secno>4. </span><span class=content>JavaScript Object inspection</span><a class=self-link href=#inspection></a></h2>
+
+<p>TODO: Define an interface that allows JavaScript objects to format themselves for inspection.</p>
+
+<h2 class="no-num heading settled" id=acks><span class=content>Acknowledgments</span><a class=self-link href=#acks></a></h2>
+
+<h2 class="no-num no-ref heading settled" id=conformance><span class=content>Conformance</span><a class=self-link href=#conformance></a></h2>
+
+<p>All diagrams, examples, and notes in this specification are non-normative, as are all sections explicitly marked
+non-normative. Everything else in this specification is normative.
+
+<p>The key words "MUST", "MUST NOT", "REQUIRED",  "SHOULD", "SHOULD NOT", "RECOMMENDED",
+"MAY", and "OPTIONAL" in the normative parts of this specification are to be interpreted as described in RFC2119. For
+readability, these words do not appear in all uppercase letters in this specification. <a data-biblio-type=normative data-link-type=biblio href=#biblio-rfc2119 title=RFC2119>[RFC2119]</a>
+
+<p>Conformance requirements phrased as algorithms or specific steps may be implemented in any manner, so long as the end
+result is equivalent.
+<h2 class="no-num heading settled" id=references><span class=content>References</span><a class=self-link href=#references></a></h2><h3 class="no-num heading settled" id=normative><span class=content>Normative References</span><a class=self-link href=#normative></a></h3><dl><dt id=biblio-rfc2119 title=rfc2119><a class=self-link href=#biblio-rfc2119></a>[rfc2119]<dd>S. Bradner. <a href=http://www.ietf.org/rfc/rfc2119.txt>Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href=http://www.ietf.org/rfc/rfc2119.txt>http://www.ietf.org/rfc/rfc2119.txt</a></dl><h2 class="no-num heading settled" id=index><span class=content>Index</span><a class=self-link href=#index></a></h2><ul class=indexlist><li>arrayOfArrays, <a href=#dom-console-table-arrayofarrays title="section 2">2</a><li>assert(), <a href=#dom-console-assert title="section 2.1.1">2.1.1</a><li>clear(), <a href=#dom-console-clear title="section 2.1.2">2.1.2</a><li>Console, <a href=#dom-console title="section 2">2</a><li>console<ul><li>attribute for Window, <a href=#dom-window-console title="section 2">2</a><li>attribute for WorkerGlobalScope, <a href=#dom-workerglobalscope-console title="section 2">2</a></ul><li>count(), <a href=#dom-console-count title="section 2.1.3">2.1.3</a><li>debug(), <a href=#dom-console-debug title="section 2.1.4">2.1.4</a><li>error(), <a href=#dom-console-error title="section 2.1.5">2.1.5</a><li>expression, <a href=#dom-console-assert-expression title="section 2">2</a><li>group(), <a href=#dom-console-group title="section 2.2.1">2.2.1</a><li>groupCollapse(), <a href=#dom-console-groupcollapse title="section 2.2.2">2.2.2</a><li>groupEnd(), <a href=#dom-console-groupend title="section 2.2.3">2.2.3</a><li>info(), <a href=#dom-console-info title="section 2.1.6">2.1.6</a><li>label<ul><li>argument for Console/count(), <a href=#dom-console-count-label title="section 2">2</a><li>argument for Console/time(), <a href=#dom-console-time-label title="section 2">2</a><li>argument for Console/timeEnd(), <a href=#dom-console-timeend-label title="section 2">2</a></ul><li>log(), <a href=#dom-console-log title="section 2.1.7">2.1.7</a><li>message, <a href=#dom-console-assert-message title="section 2">2</a><li>obj<ul><li>argument for Console/debug(), <a href=#dom-console-debug-obj title="section 2">2</a><li>argument for Console/error(), <a href=#dom-console-error-obj title="section 2">2</a><li>argument for Console/info(), <a href=#dom-console-info-obj title="section 2">2</a><li>argument for Console/log(), <a href=#dom-console-log-obj title="section 2">2</a><li>argument for Console/trace(), <a href=#dom-console-trace-obj title="section 2">2</a><li>argument for Console/warn(), <a href=#dom-console-warn-obj title="section 2">2</a><li>argument for Console/group(), <a href=#dom-console-group-obj title="section 2">2</a><li>argument for Console/groupCollapse(), <a href=#dom-console-groupcollapse-obj title="section 2">2</a></ul><li>properties, <a href=#dom-console-table-properties title="section 2">2</a><li>table(), <a href=#dom-console-table title="section 2.1.8">2.1.8</a><li>time(), <a href=#dom-console-time title="section 2.3.1">2.3.1</a><li>timeEnd(), <a href=#dom-console-timeend title="section 2.3.2">2.3.2</a><li>trace(), <a href=#dom-console-trace title="section 2.1.9">2.1.9</a><li>warn(), <a href=#dom-console-warn title="section 2.1.10">2.1.10</a></ul><h2 class="no-num heading settled" id=idl-index><span class=content>IDL Index</span><a class=self-link href=#idl-index></a></h2><pre class=idl>[NoInterfaceObject]
+interface <a data-dfn-type=interface data-export="" data-global-name="" href=#dom-console title=Console>Console</a> {
+  // Logging
+  void <a class=idl-code data-global-name="Console<interface>/assert()<method>" data-link-for=Console data-link-type=method href=#dom-console-assert title=assert()>assert</a>(boolean <a data-dfn-for=Console/assert() data-dfn-type=argument data-export="" data-global-name="Console<interface>/assert()<method>/expression<argument>" href=#dom-console-assert-expression title=expression>expression</a>, DOMString? <a data-dfn-for=Console/assert() data-dfn-type=argument data-export="" data-global-name="Console<interface>/assert()<method>/message<argument>" href=#dom-console-assert-message title=message>message</a>);
+  void <a class=idl-code data-global-name="Console<interface>/clear()<method>" data-link-for=Console data-link-type=method href=#dom-console-clear title=clear()>clear</a>();
+  void <a class=idl-code data-global-name="Console<interface>/count()<method>" data-link-for=Console data-link-type=method href=#dom-console-count title=count()>count</a>(DOMString <a data-dfn-for=Console/count() data-dfn-type=argument data-export="" data-global-name="Console<interface>/count()<method>/label<argument>" href=#dom-console-count-label title=label>label</a>);
+  void <a class=idl-code data-global-name="Console<interface>/debug()<method>" data-link-for=Console data-link-type=method href=#dom-console-debug title=debug()>debug</a>(any... <a data-dfn-for=Console/debug() data-dfn-type=argument data-export="" data-global-name="Console<interface>/debug()<method>/obj<argument>" href=#dom-console-debug-obj title=obj>obj</a>);
+  void <a class=idl-code data-global-name="Console<interface>/error()<method>" data-link-for=Console data-link-type=method href=#dom-console-error title=error()>error</a>(any... <a data-dfn-for=Console/error() data-dfn-type=argument data-export="" data-global-name="Console<interface>/error()<method>/obj<argument>" href=#dom-console-error-obj title=obj>obj</a>);
+  void <a class=idl-code data-global-name="Console<interface>/info()<method>" data-link-for=Console data-link-type=method href=#dom-console-info title=info()>info</a>(any... <a data-dfn-for=Console/info() data-dfn-type=argument data-export="" data-global-name="Console<interface>/info()<method>/obj<argument>" href=#dom-console-info-obj title=obj>obj</a>);
+  void <a class=idl-code data-global-name="Console<interface>/log()<method>" data-link-for=Console data-link-type=method href=#dom-console-log title=log()>log</a>(any... <a data-dfn-for=Console/log() data-dfn-type=argument data-export="" data-global-name="Console<interface>/log()<method>/obj<argument>" href=#dom-console-log-obj title=obj>obj</a>);
+  void <a class=idl-code data-global-name="Console<interface>/table()<method>" data-link-for=Console data-link-type=method href=#dom-console-table title=table()>table</a>(object[] <a data-dfn-for=Console/table() data-dfn-type=argument data-export="" data-global-name="Console<interface>/table()<method>/arrayofarrays<argument>" href=#dom-console-table-arrayofarrays title=arrayOfArrays>arrayOfArrays</a>, DOMString[]? <a data-dfn-for=Console/table() data-dfn-type=argument data-export="" data-global-name="Console<interface>/table()<method>/properties<argument>" href=#dom-console-table-properties title=properties>properties</a>);
+  void <a class=idl-code data-global-name="Console<interface>/trace()<method>" data-link-for=Console data-link-type=method href=#dom-console-trace title=trace()>trace</a>(any... <a data-dfn-for=Console/trace() data-dfn-type=argument data-export="" data-global-name="Console<interface>/trace()<method>/obj<argument>" href=#dom-console-trace-obj title=obj>obj</a>);
+  void <a class=idl-code data-global-name="Console<interface>/warn()<method>" data-link-for=Console data-link-type=method href=#dom-console-warn title=warn()>warn</a>(any... <a data-dfn-for=Console/warn() data-dfn-type=argument data-export="" data-global-name="Console<interface>/warn()<method>/obj<argument>" href=#dom-console-warn-obj title=obj>obj</a>);
+
+  // Grouping
+  void <a class=idl-code data-global-name="Console<interface>/group()<method>" data-link-for=Console data-link-type=method href=#dom-console-group title=group()>group</a>(any... <a data-dfn-for=Console/group() data-dfn-type=argument data-export="" data-global-name="Console<interface>/group()<method>/obj<argument>" href=#dom-console-group-obj title=obj>obj</a>);
+  void <a class=idl-code data-global-name="Console<interface>/groupcollapse()<method>" data-link-for=Console data-link-type=method href=#dom-console-groupcollapse title=groupCollapse()>groupCollapse</a>(any... <a data-dfn-for=Console/groupCollapse() data-dfn-type=argument data-export="" data-global-name="Console<interface>/groupCollapse()<method>/obj<argument>" href=#dom-console-groupcollapse-obj title=obj>obj</a>);
+  void <a class=idl-code data-global-name="Console<interface>/groupend()<method>" data-link-for=Console data-link-type=method href=#dom-console-groupend title=groupEnd()>groupEnd</a>();
+
+  // Timing
+  void <a class=idl-code data-global-name="Console<interface>/time()<method>" data-link-for=Console data-link-type=method href=#dom-console-time title=time()>time</a>(DOMString <a data-dfn-for=Console/time() data-dfn-type=argument data-export="" data-global-name="Console<interface>/time()<method>/label<argument>" href=#dom-console-time-label title=label>label</a>);
+  void <a class=idl-code data-global-name="Console<interface>/timeend()<method>" data-link-for=Console data-link-type=method href=#dom-console-timeend title=timeEnd()>timeEnd</a>(DOMString <a data-dfn-for=Console/timeEnd() data-dfn-type=argument data-export="" data-global-name="Console<interface>/timeEnd()<method>/label<argument>" href=#dom-console-timeend-label title=label>label</a>);
+};
+
+partial interface <a class=idl-code data-global-name="" data-link-type=interface href=https://html.spec.whatwg.org/#window title=Window>Window</a> {
+  attribute <a data-link-type=idl href=#dom-console title=Console>Console</a> <a data-dfn-for=Window data-dfn-type=attribute data-export="" data-global-name="Window<interface>/console<attribute>" data-type="Console " href=#dom-window-console title=console>console</a>;
+};
+
+partial interface <a class=idl-code data-global-name="" data-link-type=interface href=https://html.spec.whatwg.org/#workerglobalscope title=WorkerGlobalScope>WorkerGlobalScope</a> {
+  attribute <a data-link-type=idl href=#dom-console title=Console>Console</a> <a data-dfn-for=WorkerGlobalScope data-dfn-type=attribute data-export="" data-global-name="WorkerGlobalScope<interface>/console<attribute>" data-type="Console " href=#dom-workerglobalscope-console title=console>console</a>;
+};
+
+</pre>
